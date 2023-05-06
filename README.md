@@ -4,7 +4,7 @@ Desenvolva um CRUD utilizando o SQLite como banco de dados (assim fica mais fác
 
 
 * [Farmácia](FARMACIA.md) - Uthiele, Raul, Leonel, Thiago Lima
-* [Petshop](PETSHOP.md) -
+
 
 Exemplo de como fica o ADO concluído:
 * [Flores](https://github.com/victorwss/exemplos-php-js/tree/main/flores2)
