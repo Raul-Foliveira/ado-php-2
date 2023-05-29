@@ -1,3 +1,9 @@
+<?php
+        $query = "SELECT * FROM medicamento WHERE chave=".$_REQUEST["chave"];
+    $return = $conectar-> $query($sql);
+?>
+
+
 <html>
 <body>
     <form method="POST" action="cadastrar.php">
