@@ -1,8 +1,8 @@
 <?php
-include "abrir_transacao.php";
-include_once "operacoes.php";
+    require_once 'conectar.php';
 
-$resultado = medicamento();
+$query = "SELECT * FROM medicamento";
+$result = mysqli_query($pdoClient, $query);
 
 ?>
 
@@ -27,7 +27,7 @@ $resultado = medicamento();
             <th scope="column">unidade_medida</th>
             <th scope="column">fabricante</th>
         </tr>
-        <?php foreach ($resultado as $linha) { ?>
+        <?php foreach ($result as $linha) { ?>
             <tr>
                 <td><?= $linha["chave"] ?></td>
                 <td><?= $linha["nome_comum"] ?></td>
@@ -39,8 +39,11 @@ $resultado = medicamento();
                 <td><?= $linha["unidade_medida"] ?></td>
                 <td><?= $linha["fabricante"] ?></td>
                 <td>
-                    <button type="button">
+                    <butto type="button">
                         <a href="cadastrar.php?chave=<?= $linha["chave"] ?>">Editar</a>
+                    </button>
+                    <butto type="button">
+                        <a href="cadastrar.php?chave=<?= $linha["chave"] ?>">excluir</a>
                     </button>
                 </td>
             </tr>
