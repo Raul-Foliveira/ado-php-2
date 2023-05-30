@@ -1,7 +1,6 @@
 <?php
 require_once 'conectar.php';
 
-
     function excluirDados($chave, $conexao) {
         $chave = mysqli_real_escape_string($conexao, $chave);
         $query = "DELETE FROM medicamento WHERE chave=$chave";
@@ -15,5 +14,4 @@ require_once 'conectar.php';
     header("Location: listar.php");
     exit();
 
-   
 ?>
