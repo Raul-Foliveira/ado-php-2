@@ -39,11 +39,11 @@ $result = mysqli_query($pdoClient, $query);
                 <td><?= $linha["unidade_medida"] ?></td>
                 <td><?= $linha["fabricante"] ?></td>
                 <td>
-                    <butto type="button">
-                        <a href="cadastrar.php?chave=<?= $linha["chave"] ?>">Editar</a>
+                    <button type="button">
+                        <a href="editar.php?chave=<?= $linha["chave"] ?>">Editar</a>
                     </button>
-                    <butto type="button">
-                        <a href="cadastrar.php?chave=<?= $linha["chave"] ?>">excluir</a>
+                    <button type="button">
+                        <a href="excluir.php?chave=<?= $linha["chave"] ?>">Excluir</a>
                     </button>
                 </td>
             </tr>
