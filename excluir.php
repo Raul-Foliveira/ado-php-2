@@ -1,9 +1,6 @@
 <?php
 require_once 'conectar.php';
 
-try {
-    include "abrir_transacao.php";
-    include_once "operacoes.php";
 
     function excluirDados($chave, $conexao) {
         $chave = mysqli_real_escape_string($conexao, $chave);
@@ -12,14 +9,11 @@ try {
         return $result;
     }
 
-    $chave = isset($_POST["chave"]) ? (int) $_POST["chave"] : 0;
+    $chave = isset($_GET["chave"]) ? (int) $_GET["chave"] : 0;
     $id = excluirDados($chave, $pdoClient);
 
     header("Location: listar.php");
     exit();
 
-    $transacaoOk = true;
-} finally {
-    include "fechar_transacao.php";
-}
+   
 ?>
