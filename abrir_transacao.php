@@ -4,4 +4,3 @@ function abrir_transacao($conexao) {
     mysqli_begin_transaction($conexao);
 }
 ?>
-
