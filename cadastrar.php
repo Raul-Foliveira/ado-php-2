@@ -1,4 +1,6 @@
 <?php
+ require_once 'conectar.php';
+
 // Verificar se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obter os valores do formulário
@@ -11,9 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $unidade_medida = $_POST['unidade_medida'];
     $fabricante = $_POST['fabricante'];
 
-    // Incluir o arquivo com as funções
-    require_once 'conectar.php';
-
+    
     
 
     $query = "INSERT INTO medicamento (nome_comum, nome_substancia, tarja, preco, tipo, qtd_por_caixa, unidade_medida, fabricante) 
@@ -33,7 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Exibir mensagem de erro, caso ocorra um problema na inserção
         echo "Erro ao cadastrar o medicamento.";
     }
+
 }
+$query = "SELECT * FROM tipo_medicamento";
+$resultTipoMedicamentos = mysqli_query($pdoClient, $query);
+
+$query = "SELECT * FROM tipo_unidade_medida";
+$resultUnidadeMedida = mysqli_query($pdoClient, $query);
+
+$query = "SELECT * FROM tipo_tarja";
+$resultTarjas = mysqli_query($pdoClient, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="tarja">Tarja:</label>
-            <input type="text" id="tarja" name="tarja">
+            <?php
+            foreach ($resultTarjas as $linha) {
+        echo '<input type="radio" id="tarja" name="tarja" value="'.$linha["cor"].'"> '.$linha["cor"];
+            }
+?>
+
         </div>
         <div>
             <label for="preco">Preço:</label>
@@ -64,15 +79,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="tipo">Tipo:</label>
-            <input type="text" id="tipo" name="tipo">
+            <select id="tipo" name="tipo">
+            <option value="">Selecionar</option>
+
+            <?php
+            foreach ($resultTipoMedicamentos as $linha) {
+        echo '<option value="'.$linha["tipo"].'">'.$linha["tipo"].'</option>';
+            }
+?>
+        
+        </select>
+
+
         </div>
         <div>
             <label for="qtd_por_caixa">Quantidade por Caixa:</label>
-            <input type="text" id="qtd_por_caixa" name="qtd_por_caixa">
+            <input type="number" id="qtd_por_caixa" name="qtd_por_caixa" min="1">
         </div>
         <div>
             <label for="unidade_medida">Unidade de Medida:</label>
-            <input type="text" id="unidade_medida" name="unidade_medida">
+            <select id="unidade_medida" name="unidade_medida">
+
+            <option value="">Selecionar</option>
+
+            <?php
+            foreach ($resultUnidadeMedida as $linha) {
+        echo '<option value="'.$linha["sigla"].'">'.$linha["sigla"].'</option>';
+            }
+?>
+            </select>
         </div>
         <div>
             <label for="fabricante">Fabricante:</label>
