@@ -40,7 +40,7 @@ $result = mysqli_query($pdoClient, $query);
                 <td><?= $linha["fabricante"] ?></td>
                 <td>
                     <button type="button">
-                        <a href="editar.php?chave=<?= $linha["chave"] ?>">Editar</a>
+                        <a href="cadastrar.php?chave=<?= $linha["chave"] ?>">Editar</a>
                     </button>
                     <button type="button">
                         <a href="excluir.php?chave=<?= $linha["chave"] ?>">Excluir</a>
@@ -56,3 +56,4 @@ $result = mysqli_query($pdoClient, $query);
 <?php
 include "fechar_transacao.php";
 ?>
+
