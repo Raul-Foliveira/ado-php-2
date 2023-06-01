@@ -1,6 +1,5 @@
 <?php
-function abrir_transacao($conexao) {
-    mysqli_autocommit($conexao, FALSE);
-    mysqli_begin_transaction($conexao);
-}
-?>
+include_once "conectar.php";
+$pdo = conectar();
+$transacaoOk = false;
+$pdo->beginTransaction();
