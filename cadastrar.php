@@ -1,5 +1,9 @@
 <?php
-    require_once 'conectar.php';
+
+try {
+    require_once 'abrir_transacao.php';
+    include_once "operacoes.php";
+
 
     $chave = isset($_GET["chave"]) ? (int) $_GET["chave"] : 0;
     $nome_comum = '';
@@ -24,37 +28,25 @@
         $unidade_medida = $_POST['unidade_medida'];
         $fabricante = $_POST['fabricante'];
         if($chave > 0) {
-            $query = "UPDATE medicamento SET nome_comum = '".$nome_comum."', nome_substancia = '".$nome_substancia."', tarja = '".$tarja."', preco = '".$preco."', tipo = '".$tipo."', qtd_por_caixa = '".$qtd_por_caixa."', unidade_medida = '".$unidade_medida."', fabricante = '".$fabricante."' WHERE chave = ".$chave;
-            $result = mysqli_query($pdoClient, $query);
+            $query = "UPDATE medicamento SET nome_comum = :nome_comum, nome_substancia = :nome_substancia, tarja = :tarja, preco = :preco, tipo = :tipo, qtd_por_caixa = :qtd_por_caixa, unidade_medida = :unidade_medida, fabricante = :fabricante WHERE chave = :chave";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute(["nome_comum" => $nome_comum, "nome_substancia" => $nome_substancia, "tarja" => $tarja, "preco" => $preco, "tipo" => $tipo, "qtd_por_caixa" => $qtd_por_caixa, "unidade_medida" => $unidade_medida, "fabricante" => $fabricante, "chave" => $chave]);
 
-            if ($result) {
-                // Redirecionar para a página de listagem após inserir
-                header("Location: listar.php");
-                exit;
-            } else {
-                // Exibir mensagem de erro, caso ocorra um problema na inserção
-                echo "Erro ao cadastrar o medicamento.";
-            }
+            // Redirecionar para a página de listagem após inserir
+            header("Location: listar.php");
             
         } else {
-            $query = "INSERT INTO medicamento (nome_comum, nome_substancia, tarja, preco, tipo, qtd_por_caixa, unidade_medida, fabricante) VALUES ('".$nome_comum."', '".$nome_substancia."', '".$tarja."', '".$preco."', '".$tipo."', '".$qtd_por_caixa."', '".$unidade_medida."', '".$fabricante."')";
-            $result = mysqli_query($pdoClient, $query);
+            inserirDados(["nome_comum" => $nome_comum, "nome_substancia" => $nome_substancia, "tarja" => $tarja, "preco" => $preco, "tipo" => $tipo, "qtd_por_caixa" => $qtd_por_caixa, "unidade_medida" => $unidade_medida, "fabricante" => $fabricante]);
 
-            if ($result) {
-                // Redirecionar para a página de listagem após inserir
-                header("Location: listar.php");
-                exit;
-            } else {
-                // Exibir mensagem de erro, caso ocorra um problema na inserção
-                echo "Erro ao cadastrar o medicamento.";
-            }
+            // Redirecionar para a página de listagem após inserir
+            header("Location: listar.php");
         }
     }
 
     if($chave > 0) {    
-        $query = "SELECT * FROM medicamento WHERE chave=".$chave;
-        $dados = mysqli_query($pdoClient, $query);
-        $resultMedicamento = mysqli_fetch_assoc($dados);
+        $query = "SELECT * FROM medicamento WHERE chave = :chave";
+        $stmt = $pdo->prepare($query);
+        $resultMedicamento = $stmt->execute(["chave" => $chave]);
 
         // var_dump($resultMedicamento); debugar
         $nome_comum = $resultMedicamento["nome_comum"];
@@ -68,13 +60,13 @@
     }
 
     $query = "SELECT * FROM tipo_medicamento";
-    $resultTipoMedicamentos = mysqli_query($pdoClient, $query);
+    $resultTipoMedicamentos = $pdo->query($query);
 
     $query = "SELECT * FROM tipo_unidade_medida";
-    $resultUnidadeMedida = mysqli_query($pdoClient, $query);
+    $resultUnidadeMedida = $pdo->query($query);
 
     $query = "SELECT * FROM tipo_tarja";
-    $resultTarjas = mysqli_query($pdoClient, $query);
+    $resultTarjas = $pdo->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +91,7 @@
             <div>
                 <label for="tarja">Tarja:</label>
                 <?php
-                    foreach ($resultTarjas as $linha) {
+                    while ($linha = $resultTarjas->fetch()) {
                         $checked = '';
 
                         if($tarja == $linha["cor"]) {
@@ -119,7 +111,8 @@
                 <select id="tipo" name="tipo">
                     <option value="">Selecionar</option>
                     <?php
-                        foreach ($resultTipoMedicamentos as $linha) {
+                        while ($linha = $resultTipoMedicamentos->fetch()) {
+                            
                             $selected = '';
 
                             if($tipo == $linha["tipo"]) {
@@ -140,7 +133,7 @@
                 <select id="unidade_medida" name="unidade_medida">
                     <option value="">Selecionar</option>
                     <?php
-                        foreach ($resultUnidadeMedida as $linha) {
+                        while ($linha = $resultUnidadeMedida->fetch()) {
                             $selected = '';
 
                             if($unidade_medida == $linha["sigla"]) {
@@ -162,3 +155,8 @@
         </form>
     </body>
 </html>
+<?php
+    $transacaoOk = true;
+} finally {
+    include 'fechar_transacao.php';
+}
