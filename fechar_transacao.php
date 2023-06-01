@@ -1,6 +1,8 @@
 <?php
-function fechar_transacao($conexao) {
-    mysqli_commit($conexao);
-    mysqli_autocommit($conexao, TRUE);
+if ($transacaoOk) {
+    $pdo->commit();
+} else {
+    $pdo->rollback();
 }
+$pdo = null;
 ?>
