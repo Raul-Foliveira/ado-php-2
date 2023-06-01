@@ -2,66 +2,73 @@
     require_once 'conectar.php';
     
     function listarDados() {
-        $query = "SELECT * FROM medicamento";
-        $result = mysqli_query($pdoClient, $query);
+        global $pdo;
+        $sql = "SELECT * FROM medicamento";
+        $result = [];
+        $consulta = $pdo ->query ($sql);
+        while ($linha = $consulta ->fetch ()) {
+            $linha2 = array ();
+            $result[] = $linha;
+        }
         
         return $result;
     }
 
-    function inserirDados($nome_comum, $nome_substancia, $tarja, $preco, $tipo, $qtd_por_caixa, $unidade_medida, $fabricante) {
-        require_once('abrir_transacao.php');
-
-        abrir_transacao($pdoClient);
+    function inserirDados($dados) {
+        global $pdo; 
+        $sql = "INSERT INTO medicamento (nome_comum, nome_substancia, tarja, preco, tipo, qtd_por_caixa, unidade_medida, fabricante)".
+            "VALUES (:nome_comum,:nome_substancia,:tarja,:preco,:tipo,:qtd_por_caixa,:unidade_medida,:fabricante) ";
+        $pdo->prepare($sql)->execute($dados);
+        return $pdo->lastInsertId(); 
         
-        require_once('fechar_transacao.php');
 
-        fechar_transacao($pdoClient);
-        
-        return $result;
     }
 
-    function alterarDados($chave, $nome_comum, $nome_substancia, $tarja, $preco, $tipo, $qtd_por_caixa, $unidade_medida, $fabricante) {
-        require_once('abrir_transacao.php');
-        abrir_transacao($pdoClient);
+    function alterarDados($chave) {
+        global $pdo;
+        $sql = "UPDATE medicamento SET".
+        "nome_comum= :nome_comum," .
+        " nome_substancia= :nome_substancia,".
+        "tarja = :tarja, " .
 
-        
-        $query = "UPDATE medicamento 
-                SET nome_comum='$nome_comum', nome_substancia='$nome_substancia', tarja='$tarja', preco='$preco', tipo='$tipo', 
-                    qtd_por_caixa='$qtd_por_caixa', unidade_medida='$unidade_medida', fabricante='$fabricante' 
-                WHERE chave=$chave";
-        $result = mysqli_query($pdoClient, $query);
-        
-        require_once('fechar_transacao.php');
-        fechar_transacao($pdoClient);
 
-        
-        return $result;
-    }
+        "preco = :preco, " .
+        "tipo = :tipo, ".
+        "qtd_por_caixa = :qtd_por_caixa, " .
+        "unidade_medida = :unidade_medida " .
+        "fabricante = :fabricante " .
 
-    function excluirDados($chave) {
-        require_once('abrir_transacao.php');
-      
-
+        "WHERE chave = :chave";
+    
+    $pdo->prepare($sql)->execute($chave);
         
-        $query = "DELETE FROM medicamento WHERE chave=$chave";
-        $result = mysqli_query($pdoClient, $query);
-        
-        require_once('fechar_transacao.php');
        
 
         
-        return $result;
+        }
+
+      
+    
+
+    function excluirDados($chave) {
+
+        global $pdo;
+        $sql = "DELETE FROM medicamento WHERE chave = :chave";
+        $pdo->prepare($sql)->execute (["chave" => $chave]);
+        
+       
     }
 
     function lerDados($chave) {
-        require_once('abrir_transacao.php');
+        global $pdo;
+      
         
-        $query = "SELECT * FROM medicamento WHERE chave=$chave";
-        $result = mysqli_query($pdoClient, $query);
+        $query = "SELECT * FROM medicamento WHERE chave = :chave";
+        $stmt = $pdo->prepare($query);
         
-        require_once('fechar_transacao.php');
-        
-        return $result;
+      
+    
     }   
 
 ?>
+
