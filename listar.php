@@ -1,9 +1,7 @@
 <?php
-    require_once 'conectar.php';
-
-$query = "SELECT * FROM medicamento";
-$result = mysqli_query($pdoClient, $query);
-
+  try {
+    require_once 'abrir_transacao.php';
+    include_once "operacoes.php";
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +13,7 @@ $result = mysqli_query($pdoClient, $query);
     <title>Lista de remedios</title>
 </head>
 <body>
+    <?php $result = listarDados(); ?>
     <table>
         <tr>
             <th scope="column">Chave</th>
@@ -27,6 +26,7 @@ $result = mysqli_query($pdoClient, $query);
             <th scope="column">unidade_medida</th>
             <th scope="column">fabricante</th>
         </tr>
+        
         <?php foreach ($result as $linha) { ?>
             <tr>
                 <td><?= $linha["chave"] ?></td>
@@ -54,6 +54,11 @@ $result = mysqli_query($pdoClient, $query);
 </html>
 
 <?php
-include "fechar_transacao.php";
-?>
+
+$transacaoOk = true;
+
+} finally {
+    include "fechar_transacao.php";
+}
+
 
