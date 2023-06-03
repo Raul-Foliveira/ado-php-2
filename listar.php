@@ -42,9 +42,12 @@
                     <button type="button">
                         <a href="cadastrar.php?chave=<?= $linha["chave"] ?>">Editar</a>
                     </button>
-                    <button type="button">
-                        <a href="excluir.php?chave=<?= $linha["chave"] ?>">Excluir</a>
-                    </button>
+                    <form action="excluir.php" style="display: inline" method="POST">
+                        <input type="hidden" value="<?= $linha["chave"] ?>" name="chave">
+                        <button type="submit">
+                            <a>Excluir</a>
+                        </button>
+                    </form>
                 </td>
             </tr>
         <?php } ?>
