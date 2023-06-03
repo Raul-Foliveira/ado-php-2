@@ -170,3 +170,30 @@ Isso vale 5% da nota distribuídos assim:
 * 3% pela presença de todos os arquivos `bd.sql`, `conectar.php`, `operacoes.php`, `listar.php`, `cadastrar.php`, `excluir.php`, `abrir_transacao.php` e `fechar_transacao.php` e nada mais além do que eles.
 
 
+
+
+ADO 3
+Objetivo
+Continue o ADO 2 com AJAX e login/senha.
+
+Etapas
+Pegue o seu ADO 2 como ponto de partida.
+Termine qualquer coisa que tenha ficado para trás no ADO 2.
+Faça todas as funcionalidades implementadas funcionarem a partir de um único arquivo PHP por meio de AJAX.
+Implemente uma tela de login funcional.
+Garanta que as funcionalidades trazidas do ADO 2 não sejam acessíveis sem que o usuário esteja logado.
+Garanta que usuários não logados sejam redirecionados à tela de login e usuários logados à tela principal.
+Implemente na tela principal o botão de logout por POST e redirecione o usuário deslogado para a tela de login.
+Na tela principal, mostre também o nome do usuário que está logado.
+Se na tela de login, o usuário tentar logar com um login ou senha incorretos, mostre a mensagem de erro pertinente.
+A tabela de usuários se chama usuario e contém os seguintes campos:
+
+chave - Tipo INTEGER, auto-incremento
+login - Tipo TEXT.
+senha - Tipo TEXT.
+nome - Tipo TEXT.
+Nenhum dos campos permite NULL. Não está sendo pedida nenhuma funcionalidade de cadastro de usuários, portanto você deve pré-popular o banco de dados com os usuários.
+
+PRAZO: Último dia de aula de JavaScript (acho que 16/06).
+
+
