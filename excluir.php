@@ -3,10 +3,9 @@ try {
     include "abrir_transacao.php";
     include_once "operacoes.php";
 
- 
-
     $chave = (int) $_POST["chave"];
-    $id = excluirDados($chave);
+    if (!$chave) throw new Exception("Erro ao excluir");
+    excluirDados($chave);
 
     header("Location: listar.php");
 
