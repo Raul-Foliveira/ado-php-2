@@ -14,6 +14,9 @@
  
  | Realizar o login| em andamento
  
+ | Realizar o logout| em andamento
+ 
+ 
  |Ajax|em andamento 
  
  
