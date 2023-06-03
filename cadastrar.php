@@ -46,8 +46,11 @@ try {
     if($chave > 0) {    
         $query = "SELECT * FROM medicamento WHERE chave = :chave";
         $stmt = $pdo->prepare($query);
-        $resultMedicamento = $stmt->execute(["chave" => $chave]);
+        $stmt->execute(["chave" => $chave]);
+        // $resultMedicamento = $stmt->execute(["chave" => $chave]);
+        $resultMedicamento = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if ($resultMedicamento) {
         // var_dump($resultMedicamento); debugar
         $nome_comum = $resultMedicamento["nome_comum"];
         $nome_substancia = $resultMedicamento["nome_substancia"];
@@ -57,7 +60,11 @@ try {
         $qtd_por_caixa = $resultMedicamento["qtd_por_caixa"];
         $unidade_medida = $resultMedicamento["unidade_medida"];
         $fabricante = $resultMedicamento["fabricante"];
+    } else {
+        // Handle the case when no row is found
+        // ...
     }
+}
 
     $query = "SELECT * FROM tipo_medicamento";
     $resultTipoMedicamentos = $pdo->query($query);
