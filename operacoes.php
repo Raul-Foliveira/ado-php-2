@@ -24,7 +24,7 @@
 
     }
 
-    function alterarDados($chave) {
+    function alterarDados($dados) {
         global $pdo;
         $sql = "UPDATE medicamento SET".
         "nome_comum= :nome_comum," .
@@ -40,12 +40,10 @@
 
         "WHERE chave = :chave";
     
-    $pdo->prepare($sql)->execute($chave);
+    $pdo->prepare($sql)->execute($dados);
         
        
-
-        
-        }
+ }
 
       
     
@@ -54,21 +52,37 @@
 
         global $pdo;
         $sql = "DELETE FROM medicamento WHERE chave = :chave";
-        $pdo->prepare($sql)->execute (["chave" => $chave]);
-        
-       
+        $pdo->prepare($sql)->execute(["chave" => $chave]);
+
+
+          
     }
 
-    function lerDados($chave) {
+    function lerDados($dados) {
         global $pdo;
       
-        
-        $query = "SELECT * FROM medicamento WHERE chave = :chave";
-        $stmt = $pdo->prepare($query);
+        $sql = "SELECT * FROM medicamento WHERE chave = :chave";
+        $result = [];
+        $consulta = $pdo->prepare($sql);
+        $consulta->execute(["chave" => $chave]);
+        return $consulta->fetch();        
+        // $stmt = $pdo->prepare($query);
         
       
     
-    }   
+    } 
+
+    
+    function login($nome, $senha) {
+        global $pdo;
+        $sql = "SELECT chave, nome FROM usuario WHERE nome = :nome AND senha = :senha";
+        $consulta = $pdo->prepare($sql);
+        $consulta->execute(["nome" => $nome, "senha" => $senha]);
+        return $consulta->fetch();
+    }  
+
+
+
 
 ?>
 
