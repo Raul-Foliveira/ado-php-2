@@ -39,8 +39,8 @@ CREATE TABLE medicamento (
 
 
 CREATE TABLE usuario (
-  chave INTEGER PRIMARY KEY AUTOINCREMENT,
-  login TEXT,
-  senha TEXT,
-  nome TEXT
+chave INT PRIMARY KEY AUTOINCREMENT,
+nome VANCHAR NOT NULL,
+login VANCHAR NOT NULL,
+senha VANCHAR NOT NULL
 ); 
