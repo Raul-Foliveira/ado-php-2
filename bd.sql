@@ -36,3 +36,11 @@ CREATE TABLE medicamento (
   unidade_medida TEXT NOT NULL REFERENCES tipo_unidade_medida(sigla),
   fabricante TEXT NOT NULL CHECK(length(fabricante) >= 5 AND length(fabricante) <= 200)
 );
+
+
+CREATE TABLE usuario (
+  chave INTEGER PRIMARY KEY AUTOINCREMENT,
+  login TEXT,
+  senha TEXT,
+  nome TEXT
+); 
