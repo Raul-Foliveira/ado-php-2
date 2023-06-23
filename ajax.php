@@ -30,7 +30,7 @@ $usuario = $_SESSION["usuario"];
                     + '        <th scope="column">fabricante</th>'
                     + '    </tr>';
                 let idx = 0;
-                for (const linha of dados.listar) {
+                for (const linha of dados.listarr) {
                     tabela += `<tr>`
                         + `    <td>${linha.chave}</td>`
                         + `    <td>${linha.nome_comum}</td>`
@@ -58,12 +58,12 @@ $usuario = $_SESSION["usuario"];
                     option.id = "opcao-" + tipo;
                     document.getElementById("tipo").appendChild(option);
                 }
-                document.getElementById("listar").innerHTML = tabela;
+                document.getElementById("listarr").innerHTML = tabela;
                 document.getElementById("formulario").style.display = "none";
             }
 
             function editar(idx) {
-                const linha = dadosLidos.listar[idx];
+                const linha = dadosLidos.listarr[idx];
                 for (const campo in linha) {
                     const elem = document.getElementById(campo);
                     if (elem) elem.value = linha[campo];
@@ -105,7 +105,7 @@ $usuario = $_SESSION["usuario"];
                 if (!confirm("Tem certeza que deseja excluir ?")) return;
 
                 const conteudo = JSON.stringify({chave: parseInt(document.getElementById("chave").value) });
-                const resultado = await fetch("http://localhost/ado-php-2/excluir.php", {
+                const result = await fetch("http://localhost/ado-php-2/excluir.php", {
                     method: "POST",
                     headers: {
                         "Content-type": "application/json"
@@ -121,7 +121,7 @@ $usuario = $_SESSION["usuario"];
         <form action="..//ado-php-2/logout.php" method="POST">
             <button type="submit">Logout</button>
         </form>
-        <div id="lista"></div>
+        <div id="listarr"></div>
         <button type="button" onclick="lerDados()">Ler o resultado</button>
         <form id="formulario" style="display:none">
             <div id="div-chave">
